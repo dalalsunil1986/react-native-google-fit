@@ -13,6 +13,7 @@ package com.reactnative.googlefit;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import java.util.ArrayList;
 import android.content.Intent;
 
 import com.facebook.react.bridge.Arguments;
