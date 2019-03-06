@@ -116,17 +116,19 @@ public class GoogleFitManager implements
 
     public CalorieHistory getCalorieHistory() { return calorieHistory; }
 
-    public void authorize() {
+    public void authorize(ArrayList<String> userScopes) {
         final ReactContext mReactContext = this.mReactContext;
 
-        mApiClient = new GoogleApiClient.Builder(mReactContext.getApplicationContext())
+        GoogleApiClient.Builder apiClientBuilder = new GoogleApiClient.Builder(mReactContext.getApplicationContext())
                 .addApi(Fitness.SENSORS_API)
                 .addApi(Fitness.HISTORY_API)
-                .addApi(Fitness.RECORDING_API)
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
-                .addScope(new Scope(Scopes.FITNESS_BODY_READ_WRITE))
-                .addScope(new Scope(Scopes.FITNESS_LOCATION_READ))
-                .addScope(new Scope("https://www.googleapis.com/auth/fitness.blood_pressure.read"))
+                .addApi(Fitness.RECORDING_API);
+
+        for (String scopeName : userScopes) {
+            apiClientBuilder.addScope(new Scope(scopeName));
+        }
+
+        mApiClient = apiClientBuilder
                 .addConnectionCallbacks(
                     new GoogleApiClient.ConnectionCallbacks() {
                         @Override
